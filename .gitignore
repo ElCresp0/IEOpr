@@ -1,0 +1,4 @@
+# only ZDAJ.md is relevant
+*.*
+!*.md
+!.gitignore
