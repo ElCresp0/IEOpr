@@ -831,10 +831,74 @@ https://peterbeukema.medium.com/top-10-cross-cutting-concerns-4cf30f7ab7fa
     - klasowe - statyczne zależności między klasami (np. Adapter)
     - obiektowe - dynamiczne zależności między obiektami (np. Command (serializacja żądań))
 ## 7. Główne cechy baz danych typu NoSQL ze szczególnym uwzględnieniem założeń dotyczących ich rozproszenia
-
+Relacyjne bazy danych są bardzo powszechne ale słabo skalowanle jak jest bardzo dużo danych.
+Problem pojawia się, gdy danych jest tak dużo, że nie jedna maszyna nie jest już w stanie ich całych obsłużyć.
+Z tego powodu wprowadzono NoSQL - nierelacyjne bazy danych.
+### Skalowalność
+- wertykalna - dokupowanie pamięci - jest ograniczona przez to ile pamięci jest w stanie obsłużyć procesor
+- horyzontalna - dokupowanie komputerów (na tym skupiają się nierelacyjne bazy danych)
+---
+Nierelacyjne bazy danych są dobrym wyborem jak struktura danych jest zmienna.
+### Replikacja
+- kopiowanie danych na kilku węzłach
+- umożliwia jednoczesny dostęp do tych danych z kilku węzłów
+- peer-to-peer - można pisać do dowolnego węzła, jest połączenie każdy z każdym
+- master-slave - zapis tylko do mastera -> propagacja, odczyt z każdego
+### Sharding
+- podział danych na kilka węzłów według jakiegoś kryterium
+- sharded cluster - zbiór shardów zawierających podzbiory danych, wymagający routera przekierowującego (zapytanie) klienta do odpowiedniego sharda
+- można połączyć replikację i sharding - np. kilka węzłów głównych ma inne dane, węzły główne mają swoje repliki
+### CAP
+- Consistency - na każdym węźle są takie same dane
+- Availability - cały czas jest dostęp do wszystkich danych
+- Partition Tolerance - system działa dalej w przypadku zerwania połączenia pomiędzy węzłami
+    - Partition Tolerance jest bardzo ważna bo zawsze coś się może posypać - najpop są systemy CP i AP
+    - w razie wypadku wybiera się np. nowego mastera
+    - systemy CA nie są ani C ani A jeśli utracą połączenie
+### BASE
+- Basically Available - gwarancja dostępności w ramach CAPa
+- Soft State - stan systemu może się zmieniać w dążeniu do spójności (propagacja zmian)
+- Eventual consistency - po jakimś czasie bez inputu system osiągnie spójność
 ## 8. Rodzaje baz danych typu NoSQL i ich porównanie względem siebie
-
+### key-value
+- dobre, gdy nie trzeba przetwarzać wartości
+- wartość to czarna skrzynka, nie wyszukujemy niczego po wartości
+- dostęp do danych wyłącznie po kluczu
+- duża trwałość, wydajność, dostępność, skalowalność
+- przykład - redis
+### document
+- struktura JSON
+    - BSON (np. w mongodb) - dodatkowe typy np. ISODate(), oszczędność miejsca (w JSON'ie wszystko jest stringiem)
+- dane nie muszą mieć stałej struktury (ale się opłaca xD)
+- łatwość zmieniania struktury danych - dodawanie pól itd.
+- spójność z formatami danych w warstwie aplikacji - serializowanie do formatu json
+- wyszukiwanie po wartości (np. typowo przedziały czasowe)
+- dokumenty grupowane w kolekcje
+### graph
+- w relacyjnych bazach danych JOIN'y są kosztowną operacją
+- w bazach grafowych wystarczy trawersować graf
+- normalnie czas obsługi zapytania nie jest zależny od ilości danych (chyba że np. agregacje)
+- węzły i krawędzie mają swoje etykiety
+- możliwość wyszukiwania danych po wartości etykiet
+- duża skalowalność
+- wszystko jest grafem
+    - https://soundcloud.com/daria-titova-549399723/teorie-grafu-3a-6
+### inne: kolumnowe, tablicowe, obiektowe
+- obiektowe się nie przyjęły bo na co komu polimorfizm w bazie danych lol
 ## 9. Rola i przykłady silników do odwzorowań obiektowo-relacyjnych (ORM)
-
+https://www.baeldung.com/cs/object-relational-mapping
+- najpopularniejszym paradygmatem programowania jest OOP
+- relacyjne bazy danych nie wspierają do końca OOP
+    - np. jak się coś zmienia w kodzie to potem zmiany w strukturze bazy danych są uciążliwe
+- narzędzia ORM pozwalają na mapowanie (tłumaczenie) obiektów z aplikacji na relacyjną bazę danych
+- zastosowanie - nie trzeba pisać zapytań SQL w kodzie aplikacji, wystarczy obsłużyć ORM w swoim języku (odwołując się do pól obiektów aplikacji)
+- ORM dostarcza klasę bazową dla klas, które powinny być odwzorowane w bazie danych
+- ORM umożliwia łatwą migrację do innej bazy danych (abstrakcja backendu bazodanowego)
+- ORM wspierają ochronę przed wstrzykiwaniem SQL (SQL injection)
+- wada: przy skomplikowanych zapytaniach czysty SQL jest dużo lepszy
+- (czasem) wada: nie jest 1:1 -> nie mamy pełnej kontroli
+- każda duża platforma ma swój ORM:
+    - java -> Hibernate
+    - python -> Django (web framework zawierający ORM)
 ## Pytania prep
 https://docs.google.com/spreadsheets/d/1i8rBznVshrAxGnm8QFo3FNSEKWH9MRcWcz-UIzCy64o/edit#gid=0
