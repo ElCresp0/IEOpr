@@ -644,16 +644,196 @@ https://www.geeksforgeeks.org/what-is-a-master-file-table/
     - w narożnikach 0, $\Sigma$ = 0
 ### typowo algorytmy wykrywania krawędzi są wrażliwe na szum -> w pierwszym kroku wykonuje się Gaussa
 ## 22. Otwarte systemy agentowe: definicja, problemy konstrukcyjne i metody ich rozwiązywania
-last pytanie: systemy matuszkowe
+https://www.tandfonline.com/doi/full/10.1080/22348972.2017.1348890
+### system agentowy - system rozproszony złożony z agentów wykonujących różne zadania we wspólnym celu
+### agent - jednostka obliczeniowa zdolna do obserwowania i wpływu na swoje środowisko
+- autonomiczny - przynajmniej część jego działań jest uwarunkowana jego dotychczasową wiedzą
+- inteligentny - autonomiczne i inteligentne decyzje
+- percepty rejestrują informacje, efektory wywierają wpływ
+### architektury agentów
+- oparte na logice formalnej
+    - działania agenta oparte na stanie środowiska i zbiorze reguł logicznych
+    - agent przeprowadza wnioskowanie i podejmuje decyzje
+    - brak gwarancji akcji agenta, trudność opisania wszystkich problemów regułami logicznymi
+- reaktywne
+    - inteligentne działanie jest wynikiem interakcji z otoczeniem
+    - agenty reagują na aktualny stan otoczenia (nie uwzględniają danych historycznych)
+- warstwowe
+    - dekompozycja procesu decyzyjnego na przynajmniej dwie warstwy
+    - warstwa reaktywna - reaguje na stan środowiska i działanie warstwy proaktywnej
+    - warstwa proaktywna - triggeruje warstwę reaktywną
+    - jedno/dwuprzebiegowe (decyzja z ostatniej/pierwszej warstwy)
+### komunikacja agentów - ontologia
+- ontologia - sformalizowany opis dziedziny danego problemu
+- kodek - wspólny język agentów
+- wiadomości trafiają do zcentralizowanej kolejki
+    - jeśli odbiorca akurat migruje, wiadomość jest dostarczana po jego deserializacji
+- protokoły komunikacji - sformalizowane sekwencje komunikatów - rozwiązują konflikty i koordynują działania
+- kooperacja typowo na zasadzie dziel i rządź - dekompozycja problemu na podzadania
+- sieć kontaktowa - proponent zgłasza zadanie, oferent je przyjmuje (może rozbić na podzadania i je oddelegować)
+    - co jeśli nie ma rozwiązania? np. ponowna propozycja
+    - Paxos algorithm: są proponenci, oferenci i uczniowie, organizowane są synody -> agenty zbiegają się do jednej odpowiedzi (zbieżność as in convergence)
+    - average consensus algorithm: agenty dążą do konsensusu w swoich sąsiedztwach, obniża to zużycie zasobów na globalne synody jak w Paxos
+- systemy tablicowe
+    1. na tablicy jest problem i dane wejściowe
+    2. gdy któryś agent ma pomysł to może coś dopisać
+    3. potem może kolejny na coś wpadnie dzięki tej dodatkowej informacji
+    4. konieczność moderacji - nie wszyscy na raz
+### zapobieganie błędom
+- co jak agent się sypnie?
+- OS powinien wspierać odzyskiwanie węzła (agenta) w razie awarii
+- należy zapisywać kilka stanów agenta i podczas przywracania wybrać dobrze znany stan
+- przywrócony agent (jak również przeniesiony) powinien samodzielnie sprawdzać czy wszystko gra ("rozejrzeć się")
+- w celu zapewnienia bezpieczeństwa można korzystać z kluczy
+### prawa robotyki z pkt widzenia agenta
+1) nie szkodzic misji
+2) nie szkodzic uczestnikom misji
+3) nie szkodzic sobie
+4) racjonalnie progresowac misje
+5) trzymac sie konwencji (wzorca zachowan)
+6) osiagac wlasne cele
+7) dzialac wydajnie
+### framework JADE jest popularny bo wszyscy znają jave i jest x-platform
 ## <b>Pytania profilowe</b>
-## 1. Architektura i struktury składowania w systemach zarządzania bazami d.anych
+## 1. Architektura i struktury składowania w systemach zarządzania bazami danych
+### Architektura
+- poziom użytkownika - schemy, logiczne obiekty bazodanowe (tablice, indeksy, obrazy)
+    - schema - logiczny opis organizacji danych i ograniczeń, przypisany użytkownikowi; <br> schema stanowi zbiór innych obiektów bazodanowych, co ułatwia zarządzanie dostępami w złożonych bazach danych
+- poziom wewnętrzny (logiczny) - zarządzany przez DBA (admin)
+    - DB Block $\in$ extent $\in$ segment $\in$ tablespace $\in$ database
+    - schema na poziomie tablespace -> logiczne obiekty bazodanowe na poziomie segmentów (1 obiekt - 1 segment)
+    - DB Bloki składają się z bloków dyskowych, mają header (m.in. infrmacje o transakcjach, metadane) i dane, jak się coś nie mieści to jest chaining - podaje się ROWID ciągu dalszego (identyfikator segment->tablespace->db_blobk->wiersz)
+- poziom fizyczny
+    - datafile (poziom ekstentów, 1 extent = 1 plik w systemie plików)
+    - disc block (poziom DB Block) $\in$ datafile
+### container vs plugable database
+- CDA - fizyczna baza danych, w ramach której przechowywane są logiczne dla ułatwienia organizacji (wspólne zasoby dla wielu baz danych)
+- Pluggable (logiczna) - tj właściwa baza danych na której działa użytkownik, wchodzi w skład fizycznej
 ## 2. Mechanizmy zapewniania bezpieczeństwa i niezawodności w systemach zarządzania bazami danych
+- autoryzacja
+    - uprawnienia systemowe - operacje na obiektach schema (w ogóle)
+    - obiektowe - operacje na konkretnym obiekcie schema (należy do właściciela, który może przyznawać go dalej)
+    - administracyjne ($\in$ systemowe), SYSOPER daje duzo mozliwosci (np uruchamianie, wylaczanie, przywracanie), SYSDBA daje jeszcze wiecej (CREATE DB), userzy z uprawnieniami admin. domyslnie maja password file
+- role
+    - nazwane zestawy uprawnień systemowych i obiektowych ułatwiające zarządzanie dostępami
+    - nie sa związane z konkretnymi schemami
+    - uruchamianie skryptów PL/SQL wymaga uprawnień obiektowych do danej schemy
+- profile
+    - zestawy parametrów opisujące użytkowników
+    - każdy użytkownik ma profil (jest default)
+- quota
+    - przyznawana dla użytkownika per baza danych, określa maksymalny rozmiar danych użytkowanika w BD
+    - default = 0, nic nie dodasz
+- common/local user/rola
+    - user/rola, których nazwa zaczyna się od c## są common, czyli działają w każdej pluggable DB w CDB
+- uwierzytelnianie hasłem
+- audyt
+    - monitorowanie systemu, wykrywanie problemów z bezpieczeństwem i złego zarządzania
+    - audytuje się schemy, uprawnienia, konkretne zapytania (np. AUDIT INSERT ON table3)
+    - wyniki w BD / .txt / .xml / logach
+- przywracanie
+    - kopie zapasowe
+        - fizyczna - kopia fizycznych plików tworzących BD, plików kontrolnych, zarchiwizowanych REDO logów, kopiuje dane automatycznie, jest bezpieczniejsza
+            - można skompresować puste bloki w kopii fizycznej -> wolniejsze odzyskiwanie
+            - można inkrementować kopię fizyczną
+            - synthetic full backup - ostatni pełen backup + inkrementy (zmienione bloki)
+            - backup niespójny - wykonany na uruchomionej BD, wymaga media-recovery
+        - logiczna - kopie struktur logicznych bazy danych (np. widoki), jest użyteczna przy transferze bazy danych, ale mniej bezpieczna
+        - flashback - pozwala na wyświetlanie starej wersji BD bez jej przywracania, cofanie operacji i przywracanie BD
 ## 3. Sposoby zapewniania wydajności i strojenia w systemach zarządzania bazami danych
+### poziomy + zasady optymalizacji wydajności w Oracle
+- poziomy
+    - poziom zapytań i aplikacji
+    - poziom struktury logicznej bazy danych
+    - poziom optymalizacji Oracle (struktury danych, instancja, pamiec, procesy, zasoby)
+    - poziom środowiska (hardware, software, konfiguracja sieci)
+- zasady - optymalizacje powinny dotyczyc wszystkich:
+    - zapytan
+    - aplikacji
+    - uzytkownikow
+- optymalizacja akcyjna - w odpowiedzi na zaobserwowane problemy
+- optymalizacja proaktywna - zapobieganie problemom z wyprzedzeniem - execution plany, zarzadzanie obciazeniem instancji
+### query execution plans
+- cel - poprawienie niekorzystnie wykonywanych zapytan, bledow optymalizacji; nie lubimy iloczynów kartezjanskich
+- metody
+    - nested loop: łączenie rekordów z dwoch tablic, szybkie gdy jedna jest mała
+    - soft-merge join: przed połączeniem tablic dane są sortowane, dobra gdy brakuje indeksów
+    - hash join: tworzenie pomocnej tablicy z hashami dla większej tablicy, dobra gdy mamy na to miejsce
+    - cartesian join: kazdy wiersz z kazdym, bardzo kosztowna
+### cost-based, rule-based optimizer
+- rule-based: uwzględnia tylko składnię zapytania, nie rozpatruje charakterystyki danych
+- cost-based: przygotowuje różne plany i szacuje ich efektywność z uwzględnieniem konfiguracji i charakterystyki danych -> wybiera najlepszy
+### indeksy
+- stosowanie ma sens gdy stosunek wierszy zwróconych przez zapytanie do wszystkich wierszy w tablicy przekracza pewien próg (selektowność wierszy / bloków)
+- stosuje się B-Drzewa, bitmapy, single/multi-column i function-based indeksy
+### partycjonowanie
+- stosuje się dla bardzo dużych tablic / gdy obsługujemy współbierzne DML
+- partycje mają wpisy z tablic na podstawie przedziału / listy wartości / funkcji hash wybranych atrybutów
+### klastry
+- gdy typowo używa się dwóch tablic razem (operacje JOIN) to się opłaca wprowadzić klaster
+- niekorzystny w przypadku zapytań na jedną tablicę
+### tuning (strojenie)
+- metryki: parametry instancji (np. rozmiary buforów)
+- Automatic Workload Repository - miejsce składowania statystyk
+- Automatic Diagnostic Database Monitor - wykrywa i raportuje problemy wykryte w AWR, czasem załącza wskazówki rozwiązania problemów
+- Oracle Advisors - narzędzia wspomagające zarządzanie instancją (Buffer Cache Adv., Undo Adv., ...)
+- Alerty - powiadomienia generowane przez serwer / advisorów, typowo odnoszą się do metryk
+### przestrzenie optymalizacji
+- optymalizacja pamięci
+    - rozmiary pamięci podręcznych, buforów
+- optymalizacja struktur danych
+    - extenty, defragmentacja segmentów
+    - alerty na rozmiar struktur
+    - osobne tablespace na OLTP, OLAP
+### OLTP vs OLAP
+- OLTP
+    - Online Transaction Processing
+    - małe bloki, współbieżność, dużo buforów, duże użycie REDO logów, ARCHIVELOG, np. bankomaty
+- OLAP
+    - Online Analytical Processing
+    - jak największe DB Bloki, bufory nie mają znaczenia bo pojedyncze transakcje dotyczą bardzo dużych danych, NOARCHIVELOG
 ## 4. Problem zagadnień przecinających w paradygmacie obiektowym
+https://www.linkedin.com/advice/0/how-can-design-patterns-solve-cross-cutting-concerns \
+https://peterbeukema.medium.com/top-10-cross-cutting-concerns-4cf30f7ab7fa
+- sofware concern - problem wpływający na program komputerowy
+- zagadnienia przecinające typowo dotyczą kilku modułów / warstw aplikacji
+- zagadnienia przecinające wustępują, gdy moduł systemu jest odpowiedzialny za różne zadania i nie ma przejrzystego (prostego) interfejsu
+- utrudnia to zrozumienie, testowanie i ponowne wykorzystanie kodu
+- czynności niezwiązane z aktualnie wykonywanym zadaniem (logiką biznesową) (np. logowanie, sprawdzanie uprawnień) zwiększają złożoność kodu, utrudniają jego modyfikację
+- można rozwiązać te problemy stosując wzorce projektowe, np. Decorator (dodawanie funkcjonalności), Observer (reagowanie na akcje, np. logowanie ich)
+- można skorzystać z programowania aspektowego do wprowadzenia funkcjonalności zwiększających coupling (powiązania pomiędzy komponentami, złożoność kodu), aby kod pozostał przejrzysty i prosty
+- przykłady
+    - logging
+    - monitoring
+    - security (autoryzacja)
+    - caching (występuje na kilku warstwach aplikacji)
+    - data validation
+    - exception detection / handling
+- dlaczego to jest problem
+    - DRY - Don't Repeat Yourself
+    - jak się coś zmienia to potem trzeba w wielu miejscach
+    - przykładowe rozwiązanie to frameworki do loggowania
+    - Separation of Concerns (zasada)
+    - Single Responsibility (SOLID)
 ## 5. Zasady SOLID w projektowaniu obiektowym
+- S - single responsibility (jedna klasa - jedna odpowiedzialność, jeden powód do zmiany)
+- O - Open for extension / Closed for modification
+- L - Liskov Substitution - podstawienie klasy dziedziczącej pod bazową nie powinno nic psuć
+- I - Interface segregation - rozbijanie złożonych interfejsów na prostsze, żeby klasy implementowały tylko potrzebne metody
+- D - Dependency inversion - moduły wysokopoziomowe powinny polegać na abstrakcji (nie bezpośrednio na niskopoziomowych)
 ## 6. Pojęcie wzorca projektowego oraz jego rola w procesie projektowania.
+- improwizacja (∩^o^)⊃━☆ﾟ.*･｡ﾟ
+- klasyfikacja
+    - konstrukcyjne (creational) - tworzenie obiektów (np. Factory)
+    - strukturalne - struktury powiązanych obiektów (np. Adapter, Facade)
+    - czynnościowe - zachowanie i odpowiedzialność współpracujących ze sobą obiektów (np. Observer)
+    ---
+    - klasowe - statyczne zależności między klasami (np. Adapter)
+    - obiektowe - dynamiczne zależności między obiektami (np. Command (serializacja żądań))
 ## 7. Główne cechy baz danych typu NoSQL ze szczególnym uwzględnieniem założeń dotyczących ich rozproszenia
+
 ## 8. Rodzaje baz danych typu NoSQL i ich porównanie względem siebie
+
 ## 9. Rola i przykłady silników do odwzorowań obiektowo-relacyjnych (ORM)
 
 ## Pytania prep
