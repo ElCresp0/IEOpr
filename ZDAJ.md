@@ -463,14 +463,188 @@ https://www.geeksforgeeks.org/what-is-a-master-file-table/
 #### dziennik transakcji
 - odtwarzalność danych
 ## 14. Modele barw w grafice komputerowej
+### model ludzki - czopki wrażliwe na różne długości fali: RGB
+### modele addytywne - mieszanie światła - łączenie kolorów = sumowanie składowych // $\Sigma$ = biały, np. RGB
+### modele subtraktywne - mieszanie barwników // $\Sigma$ = czarny, np. CMY
+### RGB
+- zgodność z ludzkim postrzeganiem
+- model addytywny (światło)
+- typowo zapis bajt per składowa
+### HSB
+- też bazuje na ludzkiej percepcji
+- Hue - kolor (0-360 stopni)
+- Saturation - nasycenie (rośnie na zewnątrz koła)
+- Brightness (AKA Light/Value) - jasność (udział bieli, trzeci wymiar, czubek stożka jest czarny)
+### CMY(K)
+- subtraktywny (mieszanie barwników -> drukarki)
+- barwy podstawowe Cyan, Magenta, Yellow
+- K - blac<b>K</b> - poprawia jakość i tnie koszty
+### CIE
+- CIE - nazwa starej francuskiej komisji która to wszystko wymyśla
+- ### XYZ
+    - przekształcenia starszego CIE RGB (wada: ujemne wartości) oparte na właściowościach wzroku (eksperymenty)
+    - jedna ze skłądowych zawiera informację o jasności
+    - barwy poza widzialnym spektrum
+- ### LUV
+    - organizm koduje kolory jako wykluczające się pary R-G, B-Y
+    - te pary koduje się jako składowe U i V
+    - Lightness
+- ### La\*b\*
+- Lightness - jasność
+    - nie skupia się na składowych tylko na postrzeganiu
+    - środek kreski pomiędzy dwoma kolorami na diagrami to kolor uzyskany po ich wymieszaniu
+### problem modeli technicznych - nie wszystkie barwy nasycają się jednakowo
 ## 15. Poziomy testowania w cyklu życia oprogramowania
+### definicje
+- defekt/usterka - niepoprawny krok w programie
+- błąd - stan lub zachowanie programu odbiegające od oczekiwań
+- awaria - brak możliwości wykoanania jakiejś funkcji programu
+- debuggowanie - usuwanie defektów
+
+### testy jednostkowe (modułowe)
+- testowanie poszczególnych klas (ich funkcji) w obrębie modułu, w separacji (mocking)
+- test driven development = pisanie najpierw testów jednostkowych
+- przygotowywane przez autora kodu
+### testy integracyjne
+- integracja pomiędzy modułami (interfejsy, interakcja)
+- oparte na projekcie systemu (model V)
+- zalecana integracja przyrostowa zamiast skokowej (koszt późnego wykrycia błedu)
+### testy systemowe
+- działanie całego systemu
+- oparte na modelu logicznym (analizie)
+- zautomatyzowane lub wykonywane przez wydzielony zespół w warunkach przypominających środowisko docelowe
+- biało/czarnoskrzynkowe (znajomość szczegółów implementacyjnych)
+### testy akceptacyjne
+- oparte na wymaganiach klienta
+- testuje się cały proces biznesowy, scenariusze użycia
+- odpowiedzialność po stronie użytkowników i interesariuszy
+- testy alpha - klient w środowisku wytwórczym
+- testy beta - klient w środowisku docelowym
 ## 16. Klasy języków programowania na wybranych przykładach
+### Podział wedle paradygmatów programowania
+- programowanie imperatywne - sekwencja rozkazów przetwarzających dane, np C. // nadzbiór nad strukturalnym <br> i proceduralnym
+- programowanie deklaratywne - definiuje się cel, nie algorytm - opisuje się dane i żądane wyjście, np. SQL
+- programowanie strukturalne - jak imperatywne w sensie wykonywania sekwencji rozkazów, ale są one ustrukturyzowane - zamiast zakazanej instrukcji goto używa się takich konstrukcji jak pętle i if'y
+- programowanie proceduralne - używamy procedur (funkcji) - możliwość skoku do funkcji i powrotu
+- programowanie funkcyjne - oparte na funkcjach, które powinny dla tych samych parametrów zawsze zwracać tę samą wartość <br> https://www.geeksforgeeks.org/functional-programming-paradigm/
+    - przypisywanie wyniku do zmiennej nazywa się efektem ubocznym
+    - czyste funkcje nie mają efektów ubocznych ani interakcji I/O
+    - funkcje są deterministyczne - można zapamiętywać wyniki dla lepszych rezultatów
+    - przykład: Haskell
+- programowanie obiektowe: dogmaty: enkapsulacja, dziedziczenie, polimorfizm, abstrakcja
+- programowanie w logice - podaje się zestaw twierdzeń logicznych, na podstawie których program przeprowadza wnioskowanie, np. prolog
+### kontrola typów
+- typowanie statyczne (szybkość) - C, Cpp
+- typowanie dynamiczne - python, javascript
+### sposób wykonywania
+- kompilacja (do kodu maszynowego / pośredniego), np. c, java
+- interpretacja, np. python, bash
+### przeznaczenie
+- skryptowe, ogólnego przeznaczenia, przetwarzanie tekstu (awk)
 ## 17. Zasady budowy interfejsów użytkownika systemów informatycznych
+### modele interfejsów:
+- model użytkownika - jak użytkownik widzi program/system; opis powinien być krótki, np. jednozdaniowy
+- model programisty - jak interfejs ma działać
+- model projektanta - model sugerowany użytkownikowi i zarys jego realizacji <br> łączy model użytkownika z modelem programisty
+### ocena interfejsu:
+- miary jakości: szybkość wykonywania zadania, łatwość nauki, możliwość cofania błędnych akcji użytkownika
+- ocena subiektywna (jak mi się podoba), obiektywna (np. rytm serca <- mierzalne fakty)
+- ogólna/całościowa, szczegółowa
+- w oparciu o użytkownika, specjalistę lub teorię
+### oCeNa hEuRyStYcZnA
+- powinien być widoczny stan (loading...) oraz tryb (np. rysowanie w paincie) systemu
+- używanie języka użytkownika (mapować -> odwzorować)
+- swoboda wykonywania działań: robię rzeczy w takiej kolejności jak chcę i mogę się cofać
+- spójność (podobne formatowanie różnych komponentów interfejsu), używanie standardów (ma przypominać inne interfejsy) <br> ^ przykłady: barwa, czcionka, menu, położenie przycisków, informacje zwrotne
+- zapobieganie błędom - uniemożliwiamy wprowadzenie błędnych danych - walidacja wejścia
+- minimalizacja obciążenia pamięci użytkownika (np. skrótami klawiszowymi, ma być intuicyjnie)
+- elastyczność i wydajność - doświadczony użytkownik ma mieć możliwość wykorzystania zaawansowanych opcji dla przyspieszenia pracy
+- prostota dialogu - ograniczyć zbędne informacje
+- dobre diagnozowanie błędów: w języku zrozumiałym dla użytkownika
+- pomoc i dokumentacja: podpowiedzi, podręczniki, support, lupka
 ## 18. Techniki komunikacji międzyprocesowej
+- pliki - wszechobecna ale wolna bo operacje na plikach
+- sygnały - powiadamianie procesu o asynchronicznym wydarzeniu (procesy mogą zdefiniować obsługę)
+- sockety - komunikacja dwukierunkowa, punkt końcowy komunikacji: adres+port / plik, strumień / ramki
+- kolejki wiadomości - kolejka asychronicznych wiadomości (microsoft i java mają swoje implementacje)
+- potoki - przekierowywanie wyjścia jednego procesu na wyjście drugiego (typowo standardowe I/O)
+    - useful: tee
+- nazwane potoki - niezależne od cyklu życia procesu, w unixach są to specjalne pliki
+- semafory - określają dostęp do zasobów zapobiegając wyścigom
+- pamięć współdzielona - szybsza od potoków / gniazd, ale tylko dla procesów na danej maszynie
+- zdalne wywoływanie procedur np. java RMI (Remode Method Invocation) - wywoływanie metody obiektu innego procesu
 ## 19. Główne techniki zwiększania wydajności współczesnych procesorów
+- procesor wykonuje rozkazy, miarą wydajności jest szybkość
+### Procesory wielordzeniowe
+- każdy rdzeń procesora może wykonywać rozkazy
+- rdzenie mogą obsługiwać przerwania w różny sposób, np. tylko jeden rdzeń odświeża czas systemu na przerwanie zegarowe
+- oszczędność energii przy tej samej ilości zadań (współdzielenie zasobów)
+- współbieżność zawsze spoko wiadomo
+- drogie, nagrzewają się, nieskalowalne (koordynacja staje się wąskim gardłem)
+### Hyper-Threading
+- kilka rdzeni wirtualnych w ramach jednego fizycznego
+- dobre dla aplikacji wielowątkowych - każdy rdzeń wirtualny obsługuje w danym czasie jakiś wątek
+### pamięć cache
+- znacznie zmniejsza czas dostępu do pamięci
+- kilkupoziomowa - najwyższy poziom dostepny bezpośrednio z procesora
+- zasada lokalności pamięci i rozkazów - np. jak do cache się ładuje cały blok pamięci a program odwołuje się do danych które są obok siebie (rozkazami które są obok siebie), to będzie przeważnie cache hit
+- write-through, write-back (dirty)
+- układy przewidywania - dane ładuje się do cache z wyprzedzeniem
+### potoki
+- wykonywane rozkazy rozbija się na etapy (pobranie instrukcji, dekodowanie, wyznaczenie adresów, wykonanie rozkazu, zapis do pamięci)
+- procesor w każdym cyklu zegarowym wykonuje jeden etap - inny etap kilku różnych rozkazów jednocześnie
+- cpu może kończyć instrukcje w każdym cyklu zegara
+- analogia linii produkcyjnej
+### very long instruction word
+- dzielenie programu (po kompilacji) na ścieżki wykonywane na kilku ALU w razamach jednego procesora
 ## 20. Charakterystyka modeli przetwarzania w Internecie
+### klient - serwer
+- serwer obsługuje wielu klientów jednocześnie
+- serwer udostępnia usługi na określonych portach, komunikacja przebiega według znanych protokołów
+- np. mail -> POP3, IMAP, repozytoria plików -> FTP, www -> HTTP
+- klient może w różnym stopniu brać udział w przetwarzaniu danych obciążając/odciążając serwer
+### pośrednik
+- klient łączy się z pośrednikiem -> dostaje info o serwerze -> łączy się z serwerem
+- DNS
+### p2p
+- peer to peer, równość obu stron komunikacji (obie strony mogą pełnić rolę serwera i klienta)
+- porównywalna ilość danych wysyłanych i odbieranych
+- wada - brak serwera oznacza brak kopii zapasowych danych
+- np. komunikatory
+### chmura
+- usługi dostarczane przez zewnętrzne organizacje
+- nie trzeba mieć oprogramowania ani nawet sprzętu - płaci się za usługę
+- wszystkie modele są mega skalowalne
+- <b>IaaS</b> - Infrastructure as a Service
+    - klient zarządza dostarczonymi zasobami w postaci maszyn wirtualnych, pamięci itd
+    - służy do budowania i zarządzania infrastrukturą
+    - wymaga najwięcej wiedzy technicznej
+- <b>PaaS</b> - Platform as a Service
+    - udostępnia środowisko uruchomieniowe i wdrożeniowe dla developerów
+    - służy do rozwijania aplikacji
+    - wymaga trochę wiedzy technicznej
+- <b>SaaS</b> - Software as a Service
+    - programy użytkowe dostarczone dla śmiertelników
+    - służy do udostępniania i edycji treści, komunikacji, rozrywki itd
+    - nie wymaga wiedzy technicznej
 ## 21. Rodzaje filtrów oraz ich zastosowanie w przetwarzaniu obrazów
+### Filtrowanie obrazów - przetwarzanie ich pikseli w celu ukrycia lub uwypuklenia pewnych cech <br> maska - wagi poszczególnych pikseli z sąsiedztwa używane do wyznaczenia nowej wartości danego piksela
+### Filtry dolnoprzepustowe
+- rozmywanie, wygładzanie
+- np. ustawianie pikseli na średnią wartość w masce
+- usuwanie szumu (niekoniecznie rozmywanie)
+    - filtr Gaussa (funkcja Gaussa w 2D na masce)
+    - filtry medianowe
+### Filtry górnoprzepustowe
+- wyostrzanie, wykrywanie krawędzi
+- różnica oryginalnego obrazu i rozmytego -> krawędzie
+- suma oryginalnego obrazu i krawędzi -> wyostrzony obraz
+- Laplace
+    - filtry Laplace'a pozwalają na wykrycie wewnętrznych i zewnętrznych krawędzi (zależnie od znaków w masce) <br> 00 +1 00 <br> +1 -4 +1 <br> 00 +1 00
+    - w narożnikach 0, $\Sigma$ = 0
+### typowo algorytmy wykrywania krawędzi są wrażliwe na szum -> w pierwszym kroku wykonuje się Gaussa
 ## 22. Otwarte systemy agentowe: definicja, problemy konstrukcyjne i metody ich rozwiązywania
+last pytanie: systemy matuszkowe
 ## <b>Pytania profilowe</b>
 ## 1. Architektura i struktury składowania w systemach zarządzania bazami d.anych
 ## 2. Mechanizmy zapewniania bezpieczeństwa i niezawodności w systemach zarządzania bazami danych
