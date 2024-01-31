@@ -12,13 +12,12 @@ Wyróżnia się złożoność pesymistyczną, średnią oraz optymistyczną
     - górne ograniczenie złożoności algorytmu -> określa się nią złożoność <b>pesymistyczną</b>
 - $\Omega$ (Omega)
     - ograniczenie dolne złożoności algorytmu -> określa złożoność <b>optymistyczną</b>
-- $\Theta$ (Theta) \
+- $\Theta$ (Theta)
     - ogranicza złożoność algorytmu od dołu i od góry - jest więc używana do opisywania złożoności <b>średniej</b>
-    - zostawia się tylko czynnik najwyższego rzędu bez stałych\
+    - zostawia się tylko czynnik najwyższego rzędu bez stałych
     - np g(n)=2n^3+n należy do Theta(n^3)
 - little-o, $\omega$
-    - tak jak podstawowe wersje, ale w definicjach '>' -> '>=' , '<' -> '<='\
-    np. f(x) należy_do o(g(x)) <=> A(x>n_0) A(c>0) f(n) <<b>=</b> c*g(n)
+    - tak jak podstawowe wersje, ale w definicjach '>' -> '>=' , '<' -> '<=' <br> np. f(x) należy_do o(g(x)) <=> A(x>n_0) A(c>0) f(n) <<b>=</b> c*g(n)
 #### własności notacji asymptotycznych
 - f(n) nalezy_do O(g(n)) => a*f(n) nalezy_do O(g(n))
 - f(n) nalezy_do O(g(n)) , g(n) nalezy_do O(h(n)) => f(n) nalezy_do O(h(n)) // przejściowe
@@ -51,7 +50,7 @@ https://www.geeksforgeeks.org/data-structures/
     - odwrócona notacja polska ( "3 4 + 5 *" === "(3 + 4) * 5" )
 - sterta (kopiec)
     - uporządkowane drzewo (binary heap, fibonacci heap)
-    - typowo przechowywana w formie tablicy (kolejne piętra od lewejdo prawej)
+    - typowo przechowywana w formie tablicy (kolejne piętra od lewej do prawej)
     - heap sort (utworzenie drzewa i porządkowanie go (heapify) do postaci kopca)
     - insert jest w czasie log(n): dodajemy na końcu i wołamy heapify w górę
     - delete też jest log(n): podmieniamy usuwany element na inf i robimy podmianki od roota w dół log(n)
@@ -70,6 +69,8 @@ https://www.geeksforgeeks.org/data-structures/
     - DFS
         - w przypadku drzewa: zwykła rekursja
         - w przypadku grafu należy uważać na cykle (oznaczać elementy jako odwiedzone)
+        - złożoność czasowa: O(n) albo O(b^m) // b - stopień drzewa, m - max depth
+        - złożoność pamięciowa: O(b*m) // dla każdego węzła w ścieżce (m) w danym momencie trzeba zapamiętać całe jego rodzeństwo (b)
 - hashtablica
     - indeks w tablicy = hash(wartość elementu)
     - w przypadku kolizji zamiast elementów można np. w tablicy trzymać listy
@@ -533,6 +534,7 @@ https://www.geeksforgeeks.org/what-is-a-master-file-table/
     - przykład: Haskell
 - programowanie obiektowe: dogmaty: enkapsulacja, dziedziczenie, polimorfizm, abstrakcja
 - programowanie w logice - podaje się zestaw twierdzeń logicznych, na podstawie których program przeprowadza wnioskowanie, np. prolog
+- SQL jest językiem bezkontekstowym bo jest oparty na gramatyce bezkontekstowej, czyli symbole niekońcowe występują samodzielnie po lewej stronie reguł (nie w kontekście), np. A -> Bc jest ok, ale Ac -> d już nie
 ### kontrola typów
 - typowanie statyczne (szybkość) - C, Cpp
 - typowanie dynamiczne - python, javascript
@@ -627,6 +629,7 @@ https://www.geeksforgeeks.org/what-is-a-master-file-table/
     - programy użytkowe dostarczone dla śmiertelników
     - służy do udostępniania i edycji treści, komunikacji, rozrywki itd
     - nie wymaga wiedzy technicznej
+- inne: CaaS (Containers, dostawca zapewnia np. orkiestrację), DBaaS (bazy danych, dostawca dba o utrzymywanie), FaaS (Function - serwer wykonuje funkcję na swoich zasobach, np. płaci się per wywołanie)
 ## 21. Rodzaje filtrów oraz ich zastosowanie w przetwarzaniu obrazów
 ### Filtrowanie obrazów - przetwarzanie ich pikseli w celu ukrycia lub uwypuklenia pewnych cech <br> maska - wagi poszczególnych pikseli z sąsiedztwa używane do wyznaczenia nowej wartości danego piksela
 ### Filtry dolnoprzepustowe
@@ -709,6 +712,11 @@ https://www.tandfonline.com/doi/full/10.1080/22348972.2017.1348890
 ### container vs plugable database
 - CDA - fizyczna baza danych, w ramach której przechowywane są logiczne dla ułatwienia organizacji (wspólne zasoby dla wielu baz danych)
 - Pluggable (logiczna) - tj właściwa baza danych na której działa użytkownik, wchodzi w skład fizycznej
+### Pytanie: czy można mieć DBMS bez systemu operacyjnego?
+https://adtmag.com/articles/2001/06/11/the-network-is-the-computer-and-the-dbms-is-the-operating-system.aspx
+- można, Oracle kiedyś wypuściło we współpracy z javą (sun microsystems) produkt Raw Iron
+- miał on być dużą optymalizacją względem Oracla na system ogólnego przeznaczenia, bo po co marnować zasoby na rzeczy niezwiązane z bazą danych, typu sterowniki. DBMS już sam obsługiwał pamięc itd.
+- raczej się nie przyjęło, wykorzystuje się systemy operacyjne zaprojektowane specjalnie pod bazy danych
 ## 2. Mechanizmy zapewniania bezpieczeństwa i niezawodności w systemach zarządzania bazami danych
 - autoryzacja
     - uprawnienia systemowe - operacje na obiektach schema (w ogóle)
