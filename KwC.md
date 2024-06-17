@@ -312,16 +312,35 @@ za pomocą symetrycznej funkji jednokierunkowej \
 opis powyżej
 
 ## 37. Podaj przykład ataku kontekstowej modyfikacji wiadomości z podstawieniem klucza publicznego; jaki atrybut bezpieczeństwa informacji go uniemożliwia? 
+Mallory może zmodyfikować wiadomość wysłaną przez Alice, zaszyfrowaną kluczem publicznym Boba. Nie jest w stanie jej rozszyfrować, bo nie ma klucza prywatnego Boba, ale może podstawić własną wersję i pospisać się jako Alice.
 
+Uniemożliwia to integralność i autentyczność - Alice może użyć podpisu cyfrowego.
 ## 38. Jak realizowane są podpisy cyfrowe w technice kryptografii asymetrycznej? 
+1. Przygotowanie pary klucz prywatny, klucz publiczny
+2. Wyliczenie hasha podpisywanej zawartości
+3. Szyfrowanie hasha kluczem prywatnym => podpis
+4. Przesłanie wiadomości z podpisem
+5. Odszyfrowanie podpisu kluczem publicznym
+6. Wyliczenie hasha otrzymanej wiadomości
+7. Porównanie odszyfrowanego hasha z wyliczonym
 
 ## 39. Uzasadnij, że podpisany szyfrogram zapewnia wszystkie istotne atrybuty bezpieczeństwa informacji. 
-
+- C jak poufność - szyfrogram jest zaszyfrowany kluczem publicznym odbiorcy, i tylko on może to odszyfrować
+- I jak integralność - podpis jest zaszyfrowanym hashem wiadomości, zmiana wiadomości poskutkuje niedopasowaniem do podpisu i wykryciem
+- A jak autentyczność podpis wykonany za pomocą klucza prywatnego, do którego dostęp ma tylko sam nadawca
+- niezaprzeczalność
 ## 40. Jaki problem i w jaki sposób rozwiązuje usługa etykiet czasowych? 
 
+Timestampy pozwalają na zapisanie czasu danego zdarzenia. Pozwala to m. in. na obronę przed atakiem replay - ponowne przyjście wiadomości o identycznym timestamp można wykryć. Timestampy pełnią też rolę w generowaniu nowego klucza podczas odświeżania. \
+Timestampy są ofc zaszyfrowane, żeby Mallory sobie ich nie napisał.
+Przydają się też w blockchainie - każdy blok ma timestamp co zapewnia integralność łańcucha.
+Timestampy można też wykorzystywać przy tworzeniu podpisów cyfrowych.
 ## 41. Dlaczego informacyjne sprzężenie zwrotne (echo odebranej wiadomości) może rodzić niepożądane skutki w obecności intruza typu Mallory?
+Mallory może przechwycić wiadomość od Alice i nadać ją do Boba później, w innym konteście, prowokując odpowiedź - np. ponowne potwierdzenie transakcji. \
+Możliwości man-in-the-middle. \
+Środki zaradcze: m.in. nonce, timestamp
+## 42. Wyjaśnij pojęcia: faktoryzacja, kongruencja, reszta kwadratowa, modularna odwrotność, ciało skończone.
 
-## 42. Wyjaśnij pojęcia: faktoryzacja, kongruencja, reszta kwadratowa, modularna odwrotność, ciało skończone. 
 ## 43. Jakie operacje i pod jakimi warunkami można wykonywać na kongruencjach? 
 ## 44. Co stanowi Chińskie Twierdzenie o Resztach i jak można je wykorzystać przy bezpiecznym rozgłaszaniu grupowym? 
 ## 45. Objaśnij cel i zasadę działania schematu Shamira dzielenia sekretu w ciałach skończonych. 
