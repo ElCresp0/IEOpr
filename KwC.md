@@ -156,7 +156,7 @@ Mallory jest intruzem aktywnym, zna infrastrukturę i może na nią oddziaływa�
 - checksumy
 
 ## 18. Co to jest nadmiarowość kodu i jak się ją wyraża, podaj przykład.
-<span style="color:#aaaaff"><u>wykład</u><span>
+<span style="color:#aaaaff"><u>wykład</u></span> \
 Nadmiarowość kodu (inaczej redundancja informacyjna) zmienia entropię. Polega na dodawaniu bitów do wiadomości, aby zabezpieczyć się przed błędami nieintencjonalnymi
 
 ## 19. Opisz podstawowe tryby szyfrowania blokowego, omów ich zalety i wady z punktu widzenia zagrożeń stwarzanych przez intruza typu Mallory.
@@ -200,7 +200,7 @@ mała zmiana na wejściu powinna mocno zmienić wyjście
 Jedną metodą jest hashowanie blokowe (SHA - Secure Hash Alorithm) \
 wiadomość dzieli się na bloki określonej długości startując od wektora IV, haszuje się kolejne bloki wykorzystując w miejsce IV kolejne pośrednie hashe. \
 \*zmiana jednego bitu w M wpływa na ~50% bitów hasha\*
-## 24. Jak wyrażamy odporność funkcji skrótu na kolizje? \
+## 24. Jak wyrażamy odporność funkcji skrótu na kolizje?
 Odporność funkcji skrótu na kolizje można wyrazić jako trudność w odnalezieniu dwóch różnych wejść dających taki sam hash. Historia pokazuje, że nie jest to metryka bezwzględna, ponieważ wraz z rozwojem technologii niektóre funkcje skrótu były obalane. \
 Collision resistance można mierzyć w bitach (długość hasha) - 2^N to ilość permutacji do sprawdzenia w ataku brute-force.
 ## 25. Na czym polega zasada kompresji łańcuchowej w konstrukcji funkcji skrótu? 
@@ -340,17 +340,82 @@ Mallory może przechwycić wiadomość od Alice i nadać ją do Boba później, 
 Możliwości man-in-the-middle. \
 Środki zaradcze: m.in. nonce, timestamp
 ## 42. Wyjaśnij pojęcia: faktoryzacja, kongruencja, reszta kwadratowa, modularna odwrotność, ciało skończone.
+https://www2.im.uj.edu.pl/LeszekPieniazek/DU/Alg/test-5.html
+1. Faktoryzacja: rozbicie liczby naturalnej na czynniki pierwsze. \ Każda liczba naturalna >= 2 ma unikatową faktoryzację (przy założeniu uporządkowania, anie np. 2\*3, 3\*2).
+2. a jest <i>przystające modulo m</i> do b jeśli m | (a-b) \
+zapis a &#8801; b mod m // moduł kongruencji \
+duża teza: a &#8801; b mod m => a^i &#8801; b^i mod m
+3. reszta kwadratowa \
+m $\in$ Z, reszta kwadratowa to każda r $\in$ Z : istnieje n $\in$ Z : \
+m | n^2 - r
+4. modularna odwrotność \
+odwrotnością madularną A (mod c) jest A^-1 \
+(A * A^-1) &#8801; 1 (mod c)
+5. ciało skończone  - ciało o skończonej liczbie elementów
+## 43. Jakie operacje i pod jakimi warunkami można wykonywać na kongruencjach?
+potęgowanie obu stron, dodawanie k+l &#8801; k'+l', mnożenie k*l &#8801; k'*l' \
+jeżeli f jest zamknięta w Z, f(k) &#8801; f(k')
+## 44. Co stanowi Chińskie Twierdzenie o Resztach i jak można je wykorzystać przy bezpiecznym rozgłaszaniu grupowym?
+https://www2.im.uj.edu.pl/LeszekPieniazek/DU/Alg/test-5.html
+Twierdzenie chińskie o resztach stanowi, że dla \
+a_1, ..., a_n $\in$ Z \
+r_1, ..., r_n $\in$ N \
+pary a,r względnie pierwsze (GCD=1) \
+istnieje x : x &#8801; a_i mod m_i foreach (a_i,m_i) \
+x1,x2 => <u>x1 &#8801; x2 mod M</u>, M = m_1 \* ... \* m_n
 
-## 43. Jakie operacje i pod jakimi warunkami można wykonywać na kongruencjach? 
-## 44. Co stanowi Chińskie Twierdzenie o Resztach i jak można je wykorzystać przy bezpiecznym rozgłaszaniu grupowym? 
-## 45. Objaśnij cel i zasadę działania schematu Shamira dzielenia sekretu w ciałach skończonych. 
-## 46. Wyjaśnij pojęcia: grupa multiplikatywna, generator grupy, funkcja Φ Eulera, twierdzenie Fermata-Eulera. 
-## 47. Jaka funkcja w ciałach skończonych ma własności jednokierunkowości i symetrii? 
-## 48. Scharakteryzuj problem logarytmu dyskretnego i objaśnij jego przydatność w kryptografii. 
-## 49. Opisz protokół Diffie-Hellmana wymiany klucza tajnego przez publiczny kanał komunikacyjny; jakie zapewnia on atrybuty bezpieczeństwa informacji? 
-## 50. Jak funkcja wykładnicza w ciałach skończonych pomaga w wykonywaniu obliczeń na danych zaszyfrowanych? 
-## 51. Uzasadnij, dlaczego funkcja potęgowa w ciałach skończonych jest przydatna w kryptografii asymetrycznej opartej na RSA. 
-## 52. Opisz zasadę kryptoanalizy RSA z wykorzystaniem "tylnych drzwi". 
-## 53. Opisz zasadę certyfikacji kluczy publicznych RSA. 
-## 54. Opisz ideę i sposób realizacji ślepych podpisów cyfrowych z wykorzystaniem RSA. 
+Chinese Remainder Theorem pomaga w utworzeniu sekretu grupowego:
+1. wybór n względnie pierwszych liczb całkowitych m_1, ..., m_n
+2. wyliczenie M = m_1 \* ... \* m_n
+3. for i in members: S_i = S mod m_i
+4. Wyliczanie sekretu z wykorzystaniem CRT i S_i członków grupy
+
+## 45. Objaśnij cel i zasadę działania schematu Shamira dzielenia sekretu w ciałach skończonych.
+schemat Shamira pozwala na współdzielenie prywatnych danych w niezaufanej sieci. \
+podstawową cechą schematu Shamira jest odporność na utratę pewnej części członków, jeśli pozostała ich liczność pozostaje powyżej określonego progu. \
+nawet wszechpotężny Mallory nic nie poradzi, jak będzie miał za małą część share'ów - poniżej tego progu. \
+schemat Shamira oparty jest na interpolacji wielomianowej
+## 46. Wyjaśnij pojęcia: grupa multiplikatywna, generator grupy, funkcja Φ Eulera, twierdzenie Fermata-Eulera.
+- grupa multiplikatywna - zbiór elementów odwracalnych ciała
+- generator grupy - zbiór elementów grupy, którymi z wykorzystaniem operacji grupy można opisać wszystkie pozostałe
+- $\phi$ Eulera - ile jest liczb całkowitych <= n, względnie pierwszych z n
+- twierdzenie Fermata Eulera \
+jeśli a $\in$ Z jest względnie pierwsza z m >= 2, to a^$\phi$(m) &#8801; 1 mod m 
+## 47. Jaka funkcja w ciałach skończonych ma własności jednokierunkowości i symetrii?
+Logarytmy dyskretne
+## 48. Scharakteryzuj problem logarytmu dyskretnego i objaśnij jego przydatność w kryptografii.
+F_q - skończone ciało stopnia q
+g - generator grupy cyklicznej G stopnia n w ciele F_q \
+h $\in$ G -> znajdź x: g^x &#8801; h mod q \
+łatwo policzyć h, ciężko wyznaczyć x - jednokierunkowość
+## 49. Opisz protokół Diffie-Hellmana wymiany klucza tajnego przez publiczny kanał komunikacyjny; jakie zapewnia on atrybuty bezpieczeństwa informacji?
+1. A i B mają publiczne P,G oraz prywatne a,b
+2. x = G^a mod P; y = G^b mod P
+3. wymieniają się x, y
+4. podnoszą do tej drugiej potęgi mod P -> mają taki sam klucz symetryczny
+- goły algorytm nie zapewnia integralności ani autoryzacji, jedynie poufność
+- rozszerzanie o podpisy i hashe
+## 50. Jak funkcja wykładnicza w ciałach skończonych pomaga w wykonywaniu obliczeń na danych zaszyfrowanych?
+- szyfrujemy C = M^K mod P
+- możemy np przemnożyć C1 \* C2
+- M1^K mod P * M2^K mod P = (M1 * M2)^K mod P \
+funkcja wykladnicza umożliwia operacje algebraiczne na zaszyfrowanych danych
+## 51. Uzasadnij, dlaczego funkcja potęgowa w ciałach skończonych jest przydatna w kryptografii asymetrycznej opartej na RSA.
+
+## 52. Opisz zasadę kryptoanalizy RSA z wykorzystaniem "tylnych drzwi".
+- Tylne drzwi umożliwiają efektywne obliczenie m = c^d mod n, a więc odwrócenie c = m^e mod n. \
+Atak na RSA polega na faktoryzacji n na duże liczby pierwsze p i q, co pozwala złamać klucz. \
+- Można też mierzyć czas deszyfrowania różnych ciphertextów i wniosować o kluczu
+
+## 53. Opisz zasadę certyfikacji kluczy publicznych RSA.
+klucz publiczne RSA powinien być dużą liczbą względnie pierwszą z (p-1)(q-1) \
+p, q - duże liczby pierwsze
+
+## 54. Opisz ideę i sposób realizacji ślepych podpisów cyfrowych z wykorzystaniem RSA.
+Ślepe podpisy cyfrowe wykorzystuje się w sytuacjach, gdy autor wiadomości i podpisujący to dwie rózne osoby, i podpisujący nie powinien móc odczytać wiadomości. \
+Dane przed podpisaniem szyfruje się losowym r względnie pierwszym z N. \
+m' = mr^e mod N \
+Autor po podpisaniu zdejmuje r \
+s = s' \* r^-1 mod N
 ## 55. Dlaczego wybór tego samego modułu przez różnych użytkowników RSA może być niebezpieczny?
+umożliwia to wykorzystanie Chińskiego twierdzenia o resztach
